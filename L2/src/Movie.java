@@ -5,6 +5,67 @@ import java.util.stream.Collectors;
  * Created by garethhalladay on 8/24/17.
  */
 public class Movie {
+	
+	private final String title;
+	private final int year;
+	private final List<String> actors;
+	private List<String> genres;
+	private Rating rating;
+	private List<KeyWord> keywords;
+	
+	public Movie(String title, int year, List<String> actors)
+	{
+		this.title = title;
+		this.year = year;
+		this.actors = Collections.unmodifiableList(actors);
+	}
+	
+	public Movie(String title, int year, List<String> actors, List<String> genres, Rating rating, List<KeyWord> keywords)
+	{
+		this(title, year, actors);
+		
+		this.rating = rating;
+		this.genres = genres;
+		this.keywords = keywords;
+	}
+	 
+	
+	public List<String> getActors() 
+	{
+		return actors;
+	}
+	
+	public List<String> getGenres()
+	{
+		return genres;
+	}
+	
+	public List<KeyWord> getKeyWords()
+	{
+		return keywords;
+	}
+	
+	public Rating getRating()
+	{
+		return rating;
+	}
+	
+	public String getTitle()
+	{
+		return title;
+	}
+	
+	public int getYear()
+	{
+		return year;
+	}
+	
+	public String toString()
+	{
+		return this.getTitle() + "\n" + "Release Year: " + this.getYear() + "\nActors: " + this.formatActors(actors);
+	}
+	
+	  
     /**
      * IF YOU HAVEN'T LOOKED AT THE IMPLEMENTATION GUIDELINES LINKED IN THE MAIN RECITATION
      * Compare Movie Objects. Use the equalsIgnoresOrder method to ensure the order of lists does not matter.
@@ -14,6 +75,13 @@ public class Movie {
      */
     @Override
     public boolean equals(Object o){
+    	if(o == this)
+    		return true;
+    	if(!(o instanceof Movie))
+    		return false;
+    	Movie other = (Movie) o;
+    	
+    	return this.title.equals(other.getTitle()) && this.year == other.getYear() && equalsIgnoresOrder(this.actors,  other.getActors());
     }
 
 
@@ -98,7 +166,7 @@ public class Movie {
                                   "movie2.getRating() %s\n" +
                                   "movie2.getKeyWords() %s\n",
                           movie2.getTitle(), movie2.getYear(), movie2.getActors(),
-                          movie2.getGenres(), movie2.getRating(), movie2.getKeyWords());
+                          movie2.getGenres(), movie2.getRating().getAverageRating(), movie2.getKeyWords());
         System.out.println("\nTesting the toString method:\n" + movie1);
         System.out.printf("movie1 and movie2 should be equal (true) -> %b\n", movie1.equals(movie2));
         System.out.printf("movie1 and movie3 should be not be equal (false) -> %b\n\n", movie1.equals(movie3));

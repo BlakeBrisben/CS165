@@ -8,8 +8,9 @@ import java.util.Objects;
  */
 public class MovieLibrary {
 
-    private List<Movie> movies;
-
+	private List<Movie> movies;
+	
+	
     /**
      * A constructor that allocates memory for the instance/member variable
      */
@@ -153,25 +154,27 @@ public class MovieLibrary {
     }
 
     public static void main(String [] args) throws FileNotFoundException {
-        /*
+        
         FileParser fp = new FileParser();
         MovieLibrary library = fp.getAllMovies("resources/movie_titles.dat", "resources/movie_years.dat",
                                               "resources/movie_actors.dat", "resources/movie_genres.dat",
                                               "resources/keywords.dat","resources/movie_keywords.dat",
                                               "resources/movie_ratings.dat");
-        */
+        
 
         System.out.println("The MovieLibrary class:");
         // 1. How many movies are there in total?
+        System.out.println("1. How many movies are there in total?\n" + library.getMovies().size());
         
         // 2. How many movies did the audience rate 95% or above?
-        //System.out.println(library.filterMoviesByRating(95,  Rating.ReviewType.AUDIENCE).size());
+        System.out.println("2. How many movies did the audience rate 95% or above?\n" + library.filterMoviesByRating(95,  Rating.ReviewType.AUDIENCE).size());
         // 3. How many movies did the critics rate 0% to 5%?
-        //System.out.println(library.filterMoviesByRating(0, 5, Rating.ReviewType.CRITIC).size());
+        System.out.println("3. How many movies did the critics rate 0% to 5%?\n" + library.filterMoviesByRating(0, 5, Rating.ReviewType.CRITIC).size());
 
 
         // 4. How would you sort the KeyWords by frequency? What class/classes would you modify?
         // How would you deal with keywords that have the same frequency?
+        // I could quick sort the list with the getFrequency class in KeyWords. If 2 keywords had the same frequency, the first keyword found wouuld show up first 
 
 
 
