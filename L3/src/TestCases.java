@@ -24,6 +24,7 @@ public class TestCases {
 		assertEquals("Error: should return 2", 2, functions.greatestCommonDivisor(2, 4));
 	}
 	
+	
 	/**
 	 * This is a simple check of the reverseWindow method. Checks if the method will reverse the entire contents
 	 * of the passed array correctly.
@@ -34,6 +35,16 @@ public class TestCases {
 		int[] swapArray = {1,5,4,3,2,6};
 		
 		functions.reverseWindow(array, 1, 5);
+		
+		assertArrayEquals(array, swapArray, "Error: Swapped Array is not the expected array");
+	}
+	
+	@Test
+	public void testReverseWindowOdd() {
+		int[] array = {1,2,3,4,5,6};
+		int[] swapArray = {1,2,5,4,3,6};
+		
+		functions.reverseWindow(array, 2, 5);
 		
 		assertArrayEquals(array, swapArray, "Error: Swapped Array is not the expected array");
 	}
