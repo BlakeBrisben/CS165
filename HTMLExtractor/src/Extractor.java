@@ -20,22 +20,26 @@ public class Extractor {
     /**
      * Store links found in html file
      */
-    public static ArrayList<String> links;
+    public static ArrayList<String> links = new ArrayList<>();
 
     // Main entry point
     public static void main(String[] args) {
         
         // Read web page
-        readHtml(args[1]);
+        readHtml(args[0]);
         
         // Print size
         System.out.println("html.size(): " + html.size());
+        
+        //System.out.println(html.toString());
 
         // Extract web links
         extractHtml();
         
+        System.out.println(Extractor.links.toString());
+        
         // Write html file
-        writeHtml(args[2]);
+        writeHtml(args[1]);
     }
         
     //
@@ -58,8 +62,10 @@ public class Extractor {
                 if (!line.isEmpty()) {
                     html.add(line);
                 }
-                in.close();
+                
             }
+            
+            in.close();
         } catch (Exception e) {
             System.out.println("Cannot read " + url);
         }
@@ -79,11 +85,14 @@ public class Extractor {
         // Iterate html source
         for (String line : html) {
             
+        	
+        	
             // Search for links
             if (line.contains("https:") && line.contains("pearsoncmg") && line.contains(".html")) {
                 
                 // Extract link, if it exists
-                String link = line.substring(line.indexOf("https:"), line.lastIndexOf(".html")+5);
+                String link = line.substring(line.indexOf("https:"), line.lastIndexOf(".html"));
+                
                 // Store link, without extension
                 links.add(link);
             }
@@ -110,11 +119,17 @@ public class Extractor {
 
             // Generate list of links
             writer.println("<ul>");
-            for (String url : links) {
+            
+            String url;
+            
+            for (int i = 0; i < links.size(); i++) {
+            	
+            	url = links.get(i);
+            	
                 writer.print("    <li> ");
-                writer.print("<a href=\"" + url + ".html");
-                String name = url.substring(url.lastIndexOf("/")-1);
-                writer.print("\">" + name);
+                writer.print("<a href=" + url + ".html");
+                String name = url.substring(url.lastIndexOf("/")+1);
+                writer.print(">" + name);
                 writer.print("</a>");
                 writer.println(" </li>");
 
@@ -124,8 +139,11 @@ public class Extractor {
             // HTML footer
             writer.println("</body>");
             writer.println("</html>");
+            
+            writer.close();
         } catch (Exception e) {
             System.out.println("Cannot write " + filename);
+            
         }
     }
 }
