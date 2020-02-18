@@ -1,8 +1,8 @@
 // MazeSolver.java - solution for recursive maze assignment
-// Author: Chris Wilcox
-// Date:   12/27/2016
+// Author: Blake Brisben
+// Date:   2/12/20
 // Class:  CS165
-// Email:  wilcox@cs.colostate.edu
+// Email:  blakebri@rams.colostate.edu
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,30 +48,32 @@ public class MazeSolver {
      */
     public static void main(String[] args) throws FileNotFoundException {
 
+    	System.out.println(args[0]);
         // Load maze from file
         loadMaze(args[0]);
+        
 
-        // Find leprechaun in maze
-        int currentRow = -1;
-        int currentCol = -1;
-
-        // YOUR CODE HERE!
-
-
-        // Instantiate graphical user interface
-        gui = new UserInterface(maze);
-
-        try {
-            // Solve maze, using recursion
-            findPath(currentRow, currentCol);
-
-            // Impossible maze, notify user interface
-            gui.sendStatus(CallbackInterface.SearchStatus.PATH_IMPOSSIBLE, -1, -1); // Cannot solve
-
-        } catch (MazeSolvedException e) {
-
-            // Maze solved, exit normally
-        }
+//        // Find leprechaun in maze
+//        int currentRow = -1;
+//        int currentCol = -1;
+//
+//        // YOUR CODE HERE!
+//
+//
+//        // Instantiate graphical user interface
+//        gui = new UserInterface(maze);
+//
+//        try {
+//            // Solve maze, using recursion
+//            findPath(currentRow, currentCol);
+//
+//            // Impossible maze, notify user interface
+//            gui.sendStatus(CallbackInterface.SearchStatus.PATH_IMPOSSIBLE, -1, -1); // Cannot solve
+//
+//        } catch (MazeSolvedException e) {
+//
+//            // Maze solved, exit normally
+//        }
 
     }
 
@@ -85,7 +87,22 @@ public class MazeSolver {
      */
      static void loadMaze(String filename) throws FileNotFoundException {
         // YOUR CODE HERE!
-
+    	 
+    	File parent = new File(".").getParentFile();
+    	Scanner in = new Scanner(new File("../mazes/" + filename));
+    	
+    	String currentLine;
+    	
+    	for(int i = 0; i < in.nextInt(); i++)
+    	{
+    		for(int j = 0; j < in.nextInt(); j++)
+    		{
+    			currentLine = in.nextLine();
+    			maze[i][j] = currentLine.charAt(j);
+    		}
+    	}
+    	 
+    	in.close();
     }
 
     /**
