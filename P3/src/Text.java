@@ -1,7 +1,7 @@
 
 public class Text extends Primitive {
-	private int x, y, fontSize;
-	private String text, fontName;
+	public int x, y, fontSize;
+	public String text, fontName;
 	
 	public Text(int x, int y, String text) {
 		this.x = x;
