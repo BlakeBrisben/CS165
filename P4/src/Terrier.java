@@ -62,6 +62,13 @@ public class Terrier extends Animal {
     			move = eMove.DOWN_RIGHT;
     		}
     	}
+    	else if(this.closestRow == this.currentRow)
+    	{
+    		if(this.currentCol > this.closestCol)
+    			move = eMove.LEFT;
+    		else
+    			move = eMove.RIGHT;
+    	}
     	
     	
     		

@@ -62,7 +62,13 @@ public class Squirrel extends Animal {
     			move = eMove.UP_LEFT;
     		}
     	}
-    	
+    	else if(this.closestRow == this.currentRow)
+    	{
+    		if(this.currentCol > this.closestCol)
+    			move = eMove.RIGHT;
+    		else
+    			move = eMove.LEFT;
+    	}
     		
     	
         return move;
@@ -82,7 +88,7 @@ public class Squirrel extends Animal {
 	public boolean isValid(int row, int col){
 		if(stayOnBoard(row, col))
     	{
-    		if(this.field[row][col] == 'D' || field[row][col] == '-')
+    		if(this.field[row][col] != 'D' && field[row][col] != 'S')
     			return true;
     		else    			
     			return false;
