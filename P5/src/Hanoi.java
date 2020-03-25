@@ -60,11 +60,50 @@ public class Hanoi{
 	 */
 
 	private void rtsHanoi() throws StackException{
+		Frame frame;
+		
+		
+		
 		while(!rts.isEmpty()){
 			if(debug) System.err.println("RTS: " + rts); // only in debug mode
 			
 			// STUDENT CODE HERE
 			// You must use the provided printMove method in the appropriate places.
+			
+			frame = rts.pop();
+			int from = frame.getFrom();
+			int to = frame.getTo();
+			int tot = 0;
+			
+			for(int i = from; i <= to; i++)
+			{
+				tot += i;
+			}
+			
+			int via = tot - from - to;
+			
+			
+			if(frame.getN() != 0)
+			{
+				if(frame.getState() == 0 )
+				{
+					
+					rts.push(new Frame(1, frame.getN(), from, to));
+					rts.push(new Frame(0,frame.getN()-1, from, via));
+					
+				}
+				else if(frame.getState() == 1)
+				{
+									
+					rts.push(new Frame(2, frame.getN(), from, to));
+					rts.push(new Frame(0,frame.getN()-1, via, to));
+					
+					printMove(frame.getN(), from, to);
+					count++;
+					
+				}
+			}
+			
 		}
 	}
 
@@ -93,7 +132,7 @@ public class Hanoi{
 		// STUDENTS: feel free to change this code to test the methods
 		// Implement iterative Hanoi, counting moves
 		// In debug mode, print the run time stack in the iterative method
-		boolean debug = false;
+		boolean debug = true;
 		int n = Integer.parseInt(args[0]);
 		if(args.length > 1)
 			debug = true;

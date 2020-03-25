@@ -22,7 +22,7 @@ public class Stack<E> implements StackIF<E>{
 		// TODO Auto-generated method stub
 		// STUDENT CODE HERE
 		
-		theStack.add(op);
+		theStack.add(0, op);
 			
 	}
 
@@ -65,6 +65,7 @@ public class Stack<E> implements StackIF<E>{
 		st.push(new Frame(0,2,1,2));
 		System.out.println("st: " + st);
 		st.pop();
+		st.push(new Frame(1,2,3,4));
 		System.out.println("st: " + st);
 		st.pop();
 		System.out.println("st: " + st);
