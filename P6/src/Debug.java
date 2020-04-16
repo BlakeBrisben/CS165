@@ -50,7 +50,7 @@ public class Debug  {
    * or by a command line argument. With the {@link #debugLevel} you can vary
    *  the amount of output from none, to a lot.
    */
-  public static int debugLevel = 0;
+  public static int debugLevel = 1;
 
   /** A variable to allow debug output to go someplace other than
    *  {@code System.err}. See the {@link #toFile(String)}, {@link #close()} methods.

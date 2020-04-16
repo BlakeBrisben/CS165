@@ -26,37 +26,69 @@ class P6_Unit_Testing_MyArrayList<E> {
 		//Test the add method with 2 elements using the size() method.
 		@Test
 		void testListAdd() {
-			assertTrue(false,"fill in this test case");
+			testArrayList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.ENGINE,1336,"TestOwner"));
+			assertTrue(testArrayList.size() == 2,"List should have size of 2");
 		}
 		
 		//Test the add method with more elements than the initial size (5)
 		@Test
 		void testListAddMore() {
-			assertTrue(false,"fill in this test case");
+			testArrayList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.ENGINE,1336,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1338,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1339,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1335,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1334,"TestOwner"));
+			assertTrue(testArrayList.size() == 6,"List should have size of 6");
 		}
 		
 		//Test removing an entry by passing remove() the object instance.
 		@Test
 		void testListRemoveObjectSuccess() {
-			assertTrue(false,"fill in this test case");
+			
+			testArrayList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.ENGINE,1336,"TestOwner"));
+			
+			
+			assertTrue(testArrayList.remove((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner")),"The caboose should have been removed");
 		}
 		
 		//Test removing an entry that doesn't exist by passing remove() the non-existant object instance.
 		@Test
 		void testListRemoveObjectFail() {
-			assertTrue(false,"fill in this test case");
+
+			testArrayList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.ENGINE,1336,"TestOwner"));
+			
+			
+			assertTrue(!testArrayList.remove((E)new TrainCar(TrainCar.eType.PASSENGER,1334,"TestOwner")),"The Object does not exist");
+			
 		}
 		
 		//Test removing an entry by passing remove() the index of the entry to be erased.
 		@Test
 		void testListRemoveIndex() {
-			assertTrue(false,"fill in this test case");
+			testArrayList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.ENGINE,1336,"TestOwner"));
+			
+			assertTrue(testArrayList.remove(0).equals((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner")),"Should have removed the caboose");
 		}
 		
 		//Test removing a range of entries. range is (exclusive,inclusive)
 		@Test
 		void testListRemoveRange() {
-			assertTrue(false,"fill in this test case");
+			
+			testArrayList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.ENGINE,1336,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1338,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1339,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1335,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.PASSENGER,1334,"TestOwner"));
+			
+			testArrayList.removeRange(1, 3);
+			
+			assertTrue(testArrayList.size() == 4,"size should equal 4");
 		}
 		
 		//Test retrieving an element from testArrayList by index.
@@ -112,8 +144,12 @@ class P6_Unit_Testing_MyArrayList<E> {
 		
 		//Test clearing testArrayList to erase all elements
 		@Test
-		void testListCleaer() {
-			assertTrue(false,"fill in this test case");
+		void testListClear() {
+			testArrayList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testArrayList.add((E)new TrainCar(TrainCar.eType.ENGINE,1336,"TestOwner"));
+			
+			testArrayList.clear();
+			assertTrue(testArrayList.size() == 0,"Size should equal 0");
 		}
 		
 		//Test isEmpty() call for array

@@ -16,7 +16,21 @@ public class MyLinkedList<E> implements ILinkedList<E> {
 
     // Node data structure
     public class Node {
-        // YOUR CODE HERE
+    	
+    	E item;
+    	Node next;
+    	Node prev;
+    	
+    	public Node(E item)
+    	{
+    		this.item = item;
+    	}
+    	public Node(E item, Node prev, Node next)
+    	{
+    		this.item = item;
+    		this.prev = prev;
+    		this.next = next;
+    	}
     }
 
     // Head (first) pointer
@@ -31,13 +45,14 @@ public class MyLinkedList<E> implements ILinkedList<E> {
     // Default constructor
     public MyLinkedList() {
         // YOUR CODE HERE
+    	this.listSize = 0;
     }
 
     /**
      * Special debug method. Uncomment this method after completing the Node class.
      */
     public void printDebug() {
-         /*
+         
         Debug.printf("LinkedList.size() = %d\n", listSize);
         int index = 0;
         for (Node c = listHead; c != null; c = c.next) {
@@ -49,128 +64,276 @@ public class MyLinkedList<E> implements ILinkedList<E> {
                 sNext = c.next.getClass().getSimpleName() + "@" + Integer.toHexString(c.hashCode());
             Debug.printf("LinkedList[%d]: element %s, next %s\n", index++, sNode, sNext);
         }
-         */
+         
     }
 
     // Possible helper method? Delete if you don't want to use it.
     private Node getNode(int index){
-        return null;
+    	Node n = listHead;
+    	
+    	if(index > -1 && index < size())
+    	{
+	    	for(int i = 0; i < index-1; i++)
+	    	{
+	    		n = n.next;
+	    	}
+	
+	        return n;
+    	}
+    	else
+    		throw new IndexOutOfBoundsException();	
     }
 
     public boolean add(E e) {
-        // YOUR CODE HERE
-
+    	
+    	add(size(), e);
         return true;
     }
 
     public void add(int index, E e) {
-        // YOUR CODE HERE
+    	Node n = listHead;
+    	Node added = null;
+    	
+    	if(listHead == null)
+    	{
+    		listHead = new Node(e, null, listTail);
+    		
+    		listSize++;
+    		
+    	}
+    	else if(index <= size())
+    	{
+	    	for(int i = 0; i < index-1 && n.next != null; i++)
+	    	{
+	    		n = n.next;
+	    	}
+	    	added = new Node(e, n, n.next);
+	    	n.next = added;
+	    	
+	    	printDebug();
+	    	listSize++;
+	    	
+	    	//Debug.printf("listSize: %d", listSize);
+    	}
+    	else
+    		throw new IndexOutOfBoundsException();
+    	
     }
 
     public boolean remove(Object o) {
-        // YOUR CODE HERE
-
+        
+    	Debug.printf("indexof: %d", indexOf(o));
+    	
+    	try
+    	{
+    		remove(indexOf(o));
+    	}
+    	catch(IndexOutOfBoundsException e)
+    	{
+    		return false;
+    	}
+    	
         return true;
     }
 
     public E remove(int index) {
-        // YOUR CODE HERE
-
-        return null;
+    	
+    	Node n = listHead;
+    	Node ret;
+    	Node newPrev;
+    	
+    	Debug.printf("index: %d", index);
+    	
+    	if(index == 0)
+    	{
+    		return removeFirst();
+    	}
+    	else if(index > -1 && index < size())
+    	{    	
+	    	for(int i = 0; i < index-1; i++)
+	    	{
+	    		n = n.next;
+	    	}
+	    	
+	    	ret = n;
+	    	newPrev = n.prev;
+	    	n = n.next;
+	    	newPrev.next = n;
+	    	listSize--;
+	    	
+	        return n.item;
+    	}
+    	else
+    		throw new IndexOutOfBoundsException();
     }
 
 
     @Override
     public void removeRange(int fromIndex, int toIndex) {
-        // YOUR CODE HERE
-
+    	Node n, k;
+    	
+    	if(fromIndex == 0)
+    	{
+    		k = getNode(toIndex);
+    		listHead = k;
+    		listSize -= toIndex-fromIndex;
+    		
+    	}
+    	else if(fromIndex > 0 && fromIndex < size() && toIndex > 0 && toIndex < size())
+    	{
+	    	n = getNode(fromIndex-1);
+	    	
+	    	k = getNode(toIndex);
+	    	
+	    	
+	    	
+	    	n.next = k;
+	    	k.prev = n;
+	    	
+	    	listSize -= toIndex-fromIndex;
+    	}
+    	else
+    		throw new IndexOutOfBoundsException();
+    	
     }
 
     public E get(int index) {
-        // YOUR CODE HERE
-
-        return null;
+    	Node n = listHead;
+    	
+    	if(index > -1 && index < size())
+    	{
+	    	for(int i = 0; i < index-1; i++)
+	    	{
+	    		n = n.next;
+	    	}
+	
+	        return n.item;
+    	}
+    	else
+    		throw new IndexOutOfBoundsException();
     }
 
 
     public E set(int index, E e) {
-        // YOUR CODE HERE
-
-        return null;
+    	
+    	Node n = listHead;
+    	E ret;
+    	
+    	if(index > -1 && index < size())
+    	{
+	    	for(int i = 0; i < index-1; i++)
+	    	{
+	    		n = n.next;
+	    	}
+	    	
+	    	ret = n.item;
+	    	n.item = e;
+	    	
+	        return ret;
+    	}
+    	else
+    		throw new IndexOutOfBoundsException();
     }
 
     public boolean contains(Object o) {
-        // YOUR CODE HERE
 
-        return false;
+        return indexOf(o) != -1;
     }
 
     public int indexOf(Object o) {
-        // YOUR CODE HERE
 
-        return -1;
+    	Node n = listHead;
+    	int counter = 0;
+    	int index = -1;
+    	
+    	while(n.next != null || n.equals(o))
+    	{
+    		n = n.next;
+    		counter++;
+    		if(n.equals(o))
+    		{
+    			index = counter;
+    		}
+    	}
+    	
+        return index;
     }
 
     public int lastIndexOf(Object o) {
-        // YOUR CODE HERE
-
-        return -1;
+    	Node n = listHead;
+    	int counter = 0;
+    	int index = -1;
+    	
+    	while(n.next != null)
+    	{
+    		n = n.next;
+    		counter++;
+    		if(n.equals(o))
+    		{
+    			index = counter;
+    		}
+    	}
+    	
+        return index;
     }
 
     public void clear() {
-        // YOUR CODE HERE
-
+    	listHead.next = listTail;
+    	listSize = 0;
     }
 
     public int size() {
-        // YOUR CODE HERE
 
-        return 0;
+    	return listSize;
     }
 
     public boolean isEmpty() {
-        // YOUR CODE HERE
 
-        return false;
+        return listSize == 0;
     }
 
     public void addFirst(E e) {
-        // YOUR CODE HERE
+    	add(0, e);
 
     }
 
     public void addLast(E e) {
-        // YOUR CODE HERE
-
+    	add(size()-1, e);
+        
     }
 
     public E removeFirst() {
-        // YOUR CODE HERE
-
-        return null;
+        E ret = listHead.item;
+        listHead = listHead.next;
+    	
+        return ret;
     }
 
     public E removeLast() {
-        // YOUR CODE HERE
+    	
+    	Node ret = getNode(size()-1);
+    	Node newNode = getNode(size()-2);
+    	printDebug();
+    	newNode.next = listTail;
+    	
+    	
+    	
 
-        return null;
+        return ret.item;
     }
 
     public void push(E e) {
-        // YOUR CODE HERE
+    	add(0, e);
 
     }
 
     public E pop() {
-        // YOUR CODE HERE
 
-        return null;
+        return removeFirst();
     }
 
     public E peek() {
-        // YOUR CODE HERE
-
-        return null;
+    	return this.get(0);
     }
 
 
@@ -178,47 +341,72 @@ public class MyLinkedList<E> implements ILinkedList<E> {
     // Extra credit
     public class MyLinkedListIterator implements ListIterator<E> {
         // declare and initialize member variables
+    	
+    	int nextIndex = 0;
+    	int prevIndex = -1;
+    	Node next = listHead.next;
+    	Node prev = listHead;
 
         @Override
         public boolean hasNext() {
-            // YOUR CODE HERE
-
-            return false;
+        	
+        	return this.next() != null;
         }
 
         @Override
         public E next() {
-            // YOUR CODE HERE
-
-            return null;
-        }
+        	if(this.hasNext())
+        	{
+	        	E ret = next.item;
+	        	
+	        	nextIndex++;
+	        	prevIndex++;
+	        	prev = next;
+	        	next = next.next;
+	        	
+	        	
+	            return ret;
+            
+	        }
+	    	else
+	    		throw new NoSuchElementException();
+	        }
 
         @Override
         public boolean hasPrevious() {
-            // YOUR CODE HERE
 
-            return false;
+        	return this.previous() != null;
         }
 
         @Override
         public E previous() {
-            // YOUR CODE HERE
-
-            return null;
+        	
+        	if(this.hasPrevious())
+        	{
+	        	E ret = prev.item;
+	        	
+	        	nextIndex--;
+	        	prevIndex--;
+	        	next = prev;
+	        	prev = prev.prev;
+	        	
+	        	
+	            return ret;
+        	}
+        	else
+        		throw new NoSuchElementException();
         }
 
         @Override
         public int nextIndex() {
-            // YOUR CODE HERE
 
-            return 0;
+            return nextIndex;
         }
 
         @Override
         public int previousIndex() {
-            // YOUR CODE HERE
-
-            return 0;
+        
+            return prevIndex;
         }
 
         @Override
@@ -238,9 +426,8 @@ public class MyLinkedList<E> implements ILinkedList<E> {
     }
 
     public MyLinkedListIterator listIterator() {
-        // YOUR CODE HERE
-
-        return null;
+            	
+        return new MyLinkedListIterator();
     }
 
 }

@@ -26,7 +26,9 @@ class P6_Unit_Testing_MyLinkedList<E> {
 		//Test the add method with 2 elements using the size() method.
 		@Test
 		void testListAdd() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			assertTrue(testLinkedList.size() == 2,"Size should be 2");
 		}
 		
 		//Test the add method with an element and index using the get() method.
@@ -42,28 +44,47 @@ class P6_Unit_Testing_MyLinkedList<E> {
 		//Test high level adding functions
 		@Test
 		void testListAddFirst() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			testLinkedList.addFirst((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner"));
+			assertTrue(testLinkedList.get(0).equals((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner")),"1339 should be first");
 		}
 		
 		@Test
 		void testListAddLast() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			testLinkedList.addLast((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner"));
+			assertTrue(testLinkedList.get(testLinkedList.size()-1).equals((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner")),"Last node should be 1339");
 		}
 		
+		@SuppressWarnings("unchecked")
 		@Test
 		void testListAddLastIndex() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			testLinkedList.add(2, (E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner"));
+			assertTrue(testLinkedList.get(testLinkedList.size()-1).equals((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner")),"fill in this test case");
 		}
 		
+		@SuppressWarnings("unchecked")
 		@Test
 		void testListAddMiddleIndex() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			testLinkedList.add(1, (E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner"));
+			
+			
+			assertTrue(testLinkedList.get(1).equals((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner")),"middle node should be 1339");
 
 		}
 		
 		@Test
 		void testListPush() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			testLinkedList.push((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner"));
+			assertTrue(testLinkedList.get(0).equals((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner")),"1339 should be first");
 		}
 		
 
@@ -79,7 +100,10 @@ class P6_Unit_Testing_MyLinkedList<E> {
 		//Test removing an entry that doesn't exist by passing remove() the non-existant object instance.
 		@Test
 		void testListRemoveObjectFail() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			
+			assertFalse(testLinkedList.remove((E)new TrainCar(TrainCar.eType.ENGINE,1339,"TestOwner")), "Should return false");
 		}
 		
 		//Test removing an entry by passing remove() the index of the entry to be erased.
@@ -93,12 +117,26 @@ class P6_Unit_Testing_MyLinkedList<E> {
 		//Test removing a range of entries. range is (exclusive,inclusive)
 		@Test
 		void testListRemoveRange() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1339,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1335,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1334,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1333,"TestOwner"));
+			testLinkedList.removeRange(1, 3);
+			assertTrue(testLinkedList.size() == 4,"fill in this test case");
 		}
 		
 		@Test
 		void testListRemoveRangeFirst() {
-			assertTrue(false,"fill in this test case");
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1337,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1338,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1339,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1335,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.CABOOSE,1334,"TestOwner"));
+			testLinkedList.add((E)new TrainCar(TrainCar.eType.ENGINE,1333,"TestOwner"));
+			testLinkedList.removeRange(0, 2);
+			assertTrue(testLinkedList.size() == 4,"fill in this test case");
 
 		}
 		

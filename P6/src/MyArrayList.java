@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * MyArrayList.java - student implementation of ArrayList
  * Author: ?????
@@ -25,8 +27,12 @@ public class MyArrayList<E> implements IArrayList<E> {
      * Constructs an empty list with the specified initial capacity.
      * @param initialCapacity the initial capacity of the list
      */
-    public MyArrayList(int initialCapacity) {
+    @SuppressWarnings("unchecked")
+	public MyArrayList(int initialCapacity) {
         // YOUR CODE HERE
+    	
+    	underlyingArray = (E[]) new Object[initialCapacity];
+    	
     }
 
     /**
@@ -38,6 +44,7 @@ public class MyArrayList<E> implements IArrayList<E> {
      */
     public MyArrayList() {
         // YOUR CODE HERE
+    	this(10);
     }
 
 
@@ -62,50 +69,149 @@ public class MyArrayList<E> implements IArrayList<E> {
     @Override
     public boolean add(E e) {
         // YOUR CODE HERE
-
-        return true;
+    	
+    	add(listSize, e);
+    	
+    	return true;
     }
 
 
     // If the array is full, expand its capacity by an additional 50% (defined through
-    // CAPACITY_INCREASE), using integer math. For example, if the current capacity is 15
+	// CAPACITY_INCREASE), using integer math. For example, if the current capacity is 15
     // the new capacity will be 22, and if the current capacity is 22 the new capacity
     // will be 33.
     @Override
+    @SuppressWarnings("unchecked")
     public void add(int index, E e) {
         // YOUR CODE HERE
+    	boolean beforeInd = true;
+    	E[] temp = null;
+    	int count = 1;
+    	
+    	if(index > listSize)
+    	{
+    		throw new IndexOutOfBoundsException();
+    	}
+    	else
+    	{
+    		if(underlyingArray.length == size())
+    		{
+    			int newCap = (int) (size() + size() * CAPACITY_INCREASE);
+    			temp = underlyingArray;
+        		underlyingArray = null;
+        		underlyingArray = (E[]) new Object[newCap];	
+        		
+        		for(int i = 0; i < listSize + 1; i++)
+        		{
+        			if(index == i)
+        			{
+        				underlyingArray[i] = e;
+        				beforeInd = false;
+        			}
+        			else if(beforeInd)
+        			{
+        				underlyingArray[i] = temp[i]; 
+        			}
+        			else
+        			{
+        				underlyingArray[i] = temp[i-1];
+        			}
+        		}
+    		}
+    		else
+    		{
+    			temp = Arrays.copyOfRange(underlyingArray, index, underlyingArray.length-1);
+    			underlyingArray[index] = e;
+    			for(E vals:temp)
+    			{
+    				underlyingArray[index+count] = vals;
+    				count++;
+    			}
+    		}
+    		
+    		
+    	}
+    	
+    	listSize++;
     }
 
     @Override
     public boolean remove(Object o) {
         // YOUR CODE HERE
-        return false;
+    	
+    	
+    	int index = indexOf(o);
+    	
+    	if(index == -1)
+    		return false;
+    	else
+    	{
+    		remove(index);
+    		return true;
+    	}
+    	
+        
     }
 
 
     @Override
     public E remove(int index) {
         // YOUR CODE HERE
-        return null;
+    	
+    	E[] temp = null;
+    	E ret = underlyingArray[index];
+    	
+    	if(index > listSize - 1)
+    	{
+    		throw new IndexOutOfBoundsException();
+    	}
+    	else
+    	{
+    		temp = Arrays.copyOfRange(underlyingArray, index+1, underlyingArray.length);
+    		for(int i = index; i < listSize-1; i++)
+    		{
+    			underlyingArray[i] = temp[i-index];
+    		}
+    		listSize--;
+    	}
+    	
+        return ret;
     }
 
     @Override
     public void removeRange(int fromIndex, int toIndex) {
         // YOUR CODE HERE
+    	
+    	E[] temp = Arrays.copyOfRange(underlyingArray, toIndex, underlyingArray.length);
+    	Arrays.fill(underlyingArray, fromIndex, underlyingArray.length, null);
+    	
+    	for(int i = fromIndex; i < temp.length + fromIndex; i++)
+    	{
+    		underlyingArray[i] = temp[i-fromIndex];
+    	}
+    	
+    	listSize -= toIndex-fromIndex;
+    	Debug.printf("Size after: %d", size());
+    	
+    	
     }
 
     @Override
     public E get(int index) {
         // YOUR CODE HERE
 
-        return null;
+        return underlyingArray[index];
     }
 
     @Override
     public E set(int index, E e) {
         // YOUR CODE HERE
+    	
+    	E ret = get(index);
 
-        return null;
+    	underlyingArray[index] = e;
+    	
+        return ret;
     }
 
 
@@ -113,27 +219,68 @@ public class MyArrayList<E> implements IArrayList<E> {
     public boolean contains(Object o) {
         // YOUR CODE HERE
 
-        return false;
+    	return indexOf(o) != -1;
     }
 
     @Override
     public int indexOf(Object o) {
         // YOUR CODE HERE
 
-        return -1;
+    	int index = -1;
+    	
+    	for(int i = 0; i < size(); i++)
+    	{
+    		if(underlyingArray[i].equals(o))
+    		{
+    			index = i;
+    			i = size();
+    		}
+    		
+    	}
+    	return index;
+    }
+    
+    public int indexOf(Object o, int start) {
+        // YOUR CODE HERE
+
+    	int index = -1;
+    	
+    	for(int i = start; i < size(); i++)
+    	{
+    		if(underlyingArray[i].equals(o))
+    		{
+    			index = i;
+    			i = size();
+    		}
+    		
+    	}
+    	return index;
     }
 
     @Override
     public int lastIndexOf(Object o) {
         // YOUR CODE HERE
 
-        return -1;
+    	int index = -1;
+    	
+    	for(int i = size()-1; i >= 0; i--)
+    	{
+    		if(underlyingArray[i].equals(o))
+    		{
+    			index = i;
+    			i = 0;
+    		}
+    		
+    	}
+    	
+        return index;
     }
 
     @Override
     public void clear() {
         // YOUR CODE HERE
-
+    	Arrays.fill(underlyingArray, null);
+    	listSize = 0;
     }
 
 
@@ -141,26 +288,34 @@ public class MyArrayList<E> implements IArrayList<E> {
     public int size() {
         // YOUR CODE HERE
 
-        return -1;
+        return listSize;
     }
 
     @Override
     public boolean isEmpty() {
         // YOUR CODE HERE
-
-        return false;
+    	
+        return size() == 0;
     }
 
     // use the reallocateArray method
     public void trimToSize() {
         // YOUR CODE HERE
-
+    	
+    	E[] temp = Arrays.copyOfRange(underlyingArray, 0, listSize);
+    	reallocateArray(listSize);
+    	
+    	underlyingArray = temp;
+    	
     }
 
 
-    private void reallocateArray(int capacity) {
+    @SuppressWarnings("unchecked")
+	private void reallocateArray(int capacity) {
         // YOUR CODE HERE
-
+    	
+    	underlyingArray = (E[]) new Object[capacity];
+    	
     }
 
 }
